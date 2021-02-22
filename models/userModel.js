@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
             message: 'Passwords doesn\'t match !'
         }
     },
-    passwordChangedAt: Date,
+    passwordChangedAt:Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
     active: {
@@ -79,9 +79,9 @@ userSchema.methods.correctPassword = async function (candidatePassword, userPass
 
 userSchema.methods.passwordChangedAfter = function (JWTTimestamp) {
     
-    const changedTimeStamp = parseInt(this.passwordChangedAt.getTime() / 1000);
-
+    
     if (this.passwordChangedAt) {
+        const changedTimeStamp = parseInt(this.passwordChangedAt.getTime() / 1000);
        // console.log(changedTimeStamp, JWTTimestamp);
         return JWTTimestamp < changedTimeStamp;
     }
@@ -105,5 +105,8 @@ userSchema.methods.createPasswordResetToken = function () {
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
+
+
+
 
 
