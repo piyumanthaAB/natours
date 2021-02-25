@@ -2,6 +2,7 @@ const { findOneAndUpdate, findByIdAndUpdate } = require("../models/userModel");
 const User = require("../models/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require('./../utils/catchAsync');
+const factory = require('./handlerFactory');
 
 const filterObj = (obj, ...allowedFields) => {
 
@@ -12,18 +13,13 @@ const filterObj = (obj, ...allowedFields) => {
     return newObj;
 }
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
+exports.getMe = (req, res, next) => {
     
-    const users = await User.find();
+    req.params.id = req.user.id;
 
-    res.status(200).json({
-        status: 'success',
-        results: users.length,
-        data: {
-            users
-        }
-    });
-});
+    next();
+}
+
 
 exports.updateMe = catchAsync(async (req, res, next) => { // currently logged in user to update his data
 
@@ -36,7 +32,7 @@ exports.updateMe = catchAsync(async (req, res, next) => { // currently logged in
     const filterBody = filterObj(req.body, 'name', 'email');
 
     //console.log(filterBody);
-    
+
     //3) Update the user document
     const updatedUser = await User.findByIdAndUpdate(req.user.id, filterBody, { new: true, runValidators: true });
 
@@ -64,21 +60,9 @@ exports.createUser = (req, res) => {
         message: "this path is not yet defined"
     });
 }
-exports.getUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "this path is not yet defined"
-    });
-}
-exports.updateUser = (req, res) => { // admin to update users
-    res.status(500).json({
-        status: "error",
-        message: "this path is not yet defined"
-    });
-}
-exports.deleteUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "this path is not yet defined"
-    });
-}
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
+// Do NOT update passwords with this !
+
+exports.updateUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);
