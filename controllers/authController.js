@@ -79,13 +79,48 @@ exports.login = catchAsync(async (req, res, next) => {
     
 });
 
+// only for rendered pages. no errors!. check whether the user is logged in or not!. work for both logged and not users!
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+    
+    let token;
+
+    //1) Getting the token and check if its out there
+    if (req.cookies.jwt) { // this is for brower. read the jwt from a cookie
+        token = req.cookies.jwt;
+
+        //1) Verification Token
+        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        
+
+        //2) Check if user still exists
+        const currentUser = await User.findById(decoded.id);
+
+        if (!currentUser) {
+            return next();
+        }
+
+        //3) Check if user changed password after token was issued
+        if (currentUser.passwordChangedAfter(decoded.iat)) {
+            return next();
+        }
+
+        // there is a logged in user
+        res.locals.user = currentUser;
+        return next();
+    }
+    next();
+});
+
+
 exports.protect = catchAsync(async (req, res, next) => {
     
     let token;
 
     //1) Getting the token and check if its out there
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) { // this is with postman . read jwt from request header
         token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies.jwt) { // this is for brower. read the jwt from a cookie
+        token = req.cookies.jwt;
     }
 
     //console.log(token);
@@ -114,6 +149,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.user = currentUser;
     next();
 });
+
 
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {

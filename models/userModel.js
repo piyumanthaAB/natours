@@ -48,6 +48,8 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// **** MUST COMMENT OUT BEFORE IMPORT DATA TO THE DATABASE, because PASSWORD will  encrypte twise otherwise. !!!!! ******
+
 userSchema.pre('save', async function (next) {
     // Only run this if password is modified
     if (!this.isModified('password')) return next();
