@@ -1,6 +1,13 @@
 const Tour = require('./../models/tourModel');
 const catchAsync = require('./../utils/catchAsync');
 
+const setCSPHeader = (res) => {
+    res.set({
+        'Content-Security-Policy': `default-src 'self' http: https: *;block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data: blob:;object-src 'none';script-src 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ https://cdnjs.cloudflare.com/ajax/l 'unsafe-inline'  'unsafe-eval';script-src-elem https: http: ;script-src-attr 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ 'unsafe-inline' ;style-src * 'self' https://api.mapbox.com https://fonts.googleapis.com https://fonts.google.com/ 'unsafe-inline'  ;worker-src 'self' blob:`
+        // 'Content-Security-Policy': `default-src 'self' http: https: unsafe-inline;img-src 'self' data: blob:;connect-src *;style-src * unsafe-inline ;script-src-elem * unsafe-inline;`
+    });
+    return res;
+}
 
 exports.getOverview = catchAsync(async (req, res, next) => {
 
@@ -10,6 +17,9 @@ exports.getOverview = catchAsync(async (req, res, next) => {
     //2) build template
 
     //3)  render that template sing tour data from 1)
+    
+    // set the header. remove CSP error
+    setCSPHeader(res);
 
     res.status(200).render('overview', {
         title: 'All Tours',
@@ -34,10 +44,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     // 3)  render template using data from 1)
 
     // set the header. remove CSP error
-    res.set({
-        'Content-Security-Policy': `default-src 'self' http: https: *;block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data: blob:;object-src 'none';script-src 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/'unsafe-inline'  'unsafe-eval';script-src-elem https: http: ;script-src-attr 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ 'unsafe-inline' ;style-src * 'self' https://api.mapbox.com https://fonts.googleapis.com https://fonts.google.com/'unsafe-inline'  ;worker-src 'self' blob:`
-        // 'Content-Security-Policy': `default-src 'self' http: https: unsafe-inline;img-src 'self' data: blob:;connect-src *;style-src * unsafe-inline ;script-src-elem * unsafe-inline;`
-    });
+    setCSPHeader(res);
 
     res.status(200).render('tour', {
         title: `${tour.name} Tour`,
@@ -47,9 +54,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
 exports.getLogin = (req, res) => {
     // set the header. remove CSP error
-    res.set({
-        'Content-Security-Policy': `default-src 'self' http: https:;block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data: blob:;object-src 'none';script-src 'self' https://cdnjs.com/ 'unsafe-inline' 'unsafe-eval';script-src-elem https: http: ;script-src-attr 'self' https://cdnjs.com/ 'unsafe-inline';style-src 'self' https://cdnjs.com/ https://fonts.googleapis.com https://fonts.google.com/ 'unsafe-inline';worker-src 'self' blob:`
-        });
+    setCSPHeader(res);
     
     res.status(200).render('login', {
         title: 'Login'
