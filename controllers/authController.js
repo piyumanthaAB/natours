@@ -79,10 +79,13 @@ exports.login = catchAsync(async (req, res, next) => {
     
 });
 
+
+
 // only for rendered pages. no errors!. check whether the user is logged in or not!. work for both logged and not users!
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
+exports.isLoggedIn = async (req, res, next) => {
     
-    let token;
+    try {
+        let token;
 
     //1) Getting the token and check if its out there
     if (req.cookies.jwt) { // this is for brower. read the jwt from a cookie
@@ -109,7 +112,13 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
         return next();
     }
     next();
-});
+    } catch (err) {
+       return next();
+    }
+
+
+    
+};
 
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -147,6 +156,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     // Grant Access To The Protected Route
     req.user = currentUser;
+    res.locals.user = currentUser;
     next();
 });
 
@@ -260,3 +270,11 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     createSendToken(user, 200, res);
     
 });
+
+exports.logOut = (req, res) => {
+    res.cookie('jwt', '', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true
+    });
+    res.status(200).json({ status: 'success' });
+}

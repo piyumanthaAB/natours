@@ -31,37 +31,98 @@ const handleJsonWebTokenError = err => {
 const handleJWTExpiredError = err => {
     return new AppError('Expired Token. Please Login Again !', 401);
 }
-const sendErrorDev = (err, res) => {
-    res.status(err.statusCode).json({
-        status: err.status,
-        error:err,
-        message: err.message,
-        stack:err.stack
-    });
-}
-
-const sendErrorProd = (err, res) => {
-    //Operational trusted error: send message to client
-    
-    if (err.isOperational) {
+const sendErrorDev = (err, req, res) => {
+    // API
+    if (req.originalUrl.startsWith('/api')) {
         
         res.status(err.statusCode).json({
             status: err.status,
-            message: err.message
-            
+            error: err,
+            message: err.message,
+            stack: err.stack
+        });
+    } else {
+        
+
+        // set CSP header 
+        res.set({
+            'Content-Security-Policy': `default-src 'self' http: https: *;block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data: blob:;object-src 'none';script-src 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ https://cdnjs.cloudflare.com/ajax/l 'unsafe-inline'  'unsafe-eval';script-src-elem https: http: ;script-src-attr 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ 'unsafe-inline' ;style-src * 'self' https://api.mapbox.com https://fonts.googleapis.com https://fonts.google.com/ 'unsafe-inline'  ;worker-src 'self' blob:`
+            // 'Content-Security-Policy': `default-src 'self' http: https: unsafe-inline;img-src 'self' data: blob:;connect-src *;style-src * unsafe-inline ;script-src-elem * unsafe-inline;`
         });
         
-    }
-    //Programming or other unknown error:don't leak error details
-    else {
-        //1.Log error
-        console.log(err.isOperational);
-
-        //2.Send Generic Message
-        res.status(500).json({
-            status: 'fail',
-            message: 'Something went very Wrong !'
+        // RENDERED WEBSITE
+        res.status(err.statusCode).render('error', {
+            title: 'Something went wrong!',
+            msg:err.message
         });
+    }
+
+}
+
+const sendErrorProd = (err, req, res) => {
+    // A) API
+    if (req.originalUrl.startsWith('/api')) {
+        
+        //Operational trusted error: send message to client
+        
+        if (err.isOperational) {
+            
+            res.status(err.statusCode).json({
+                status: err.status,
+                message: err.message
+                
+            });
+            
+        }
+        //Programming or other unknown error:don't leak error details
+        else {
+            //1.Log error
+            console.log(err.isOperational);
+    
+            //2.Send Generic Message
+            res.status(500).json({
+                status: 'fail',
+                message: 'Something went very Wrong !'
+            });
+        }
+    } else {
+
+        // B) RENDERED WEBSITE
+        //Operational trusted error: send message to client
+        
+        if (err.isOperational) {
+            
+            // set CSP header 
+        res.set({
+            'Content-Security-Policy': `default-src 'self' http: https: *;block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data: blob:;object-src 'none';script-src 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ https://cdnjs.cloudflare.com/ajax/l 'unsafe-inline'  'unsafe-eval';script-src-elem https: http: ;script-src-attr 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ 'unsafe-inline' ;style-src * 'self' https://api.mapbox.com https://fonts.googleapis.com https://fonts.google.com/ 'unsafe-inline'  ;worker-src 'self' blob:`
+            // 'Content-Security-Policy': `default-src 'self' http: https: unsafe-inline;img-src 'self' data: blob:;connect-src *;style-src * unsafe-inline ;script-src-elem * unsafe-inline;`
+        });
+        
+        // RENDERED WEBSITE
+        res.status(err.statusCode).render('error', {
+            title: 'Something went wrong!',
+            msg:"Please try again"
+        });
+            
+        }
+        //Programming or other unknown error:don't leak error details
+        else {
+            //1.Log error
+            console.log(err.isOperational);
+    
+            //2.Send Generic Message
+            // set CSP header 
+        res.set({
+            'Content-Security-Policy': `default-src 'self' http: https: *;block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data: blob:;object-src 'none';script-src 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ https://cdnjs.cloudflare.com/ajax/l 'unsafe-inline'  'unsafe-eval';script-src-elem https: http: ;script-src-attr 'self' https://api.mapbox.com https://cdn.jsdelivr.net https://fonts.google.com/ 'unsafe-inline' ;style-src * 'self' https://api.mapbox.com https://fonts.googleapis.com https://fonts.google.com/ 'unsafe-inline'  ;worker-src 'self' blob:`
+            // 'Content-Security-Policy': `default-src 'self' http: https: unsafe-inline;img-src 'self' data: blob:;connect-src *;style-src * unsafe-inline ;script-src-elem * unsafe-inline;`
+        });
+        
+        // RENDERED WEBSITE
+        res.status(err.statusCode).render('error', {
+            title: 'Something went wrong!',
+            msg:'Please Try again'
+        });
+        }
     }
 
 }
@@ -70,11 +131,13 @@ module.exports = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
+    
 
     if (process.env.NODE_ENV === 'development') {
-        sendErrorDev(err, res);
+        sendErrorDev(err,req, res);
     } else if (process.env.NODE_ENV === 'production') {
         var error = { ...err };
+        error.message = err.message;
       //  console.log(error);
         if (error.code === 11000) {
             error=handleDuplicateFieldsDB(error);
@@ -91,7 +154,7 @@ module.exports = (err, req, res, next) => {
         // if (error.code === 11000) error = handleDuplicateFieldsDB(error);
         // if (error) error = handleCastErrorDB(error);
 
-        sendErrorProd(error, res);
+        sendErrorProd(error,req, res);
     }
 
     

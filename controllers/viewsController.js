@@ -1,5 +1,7 @@
 const Tour = require('./../models/tourModel');
+const User = require('./../models//userModel');
 const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError');
 
 const setCSPHeader = (res) => {
     res.set({
@@ -35,8 +37,11 @@ exports.getTour = catchAsync(async (req, res, next) => {
         path: 'reviews',
         fields: 'review rating user'
     });
-    
-    console.log(tour.reviews[0].user.photo);
+    // tour error send
+    if (!tour) {
+        return next(new AppError('No tour found !', 404));
+    }
+    // console.log(tour.reviews[0].user.photo);
 
     // 2)  build template
 
@@ -60,3 +65,30 @@ exports.getLogin = (req, res) => {
         title: 'Login'
     });
 }
+
+exports.getAccount = (req, res) => {
+    // set the header. remove CSP error
+    setCSPHeader(res);
+    
+    res.status(200).render('account', {
+        title: 'Your Account'
+    });
+}
+
+exports.updateUserData = catchAsync(async (req, res, next) => {
+    console.log(req.body);
+    const updatedUser = await User.findByIdAndUpdate(req.user.id,
+        {
+            name: req.body.name,
+            email: req.body.email
+        },
+        {
+            new: true,
+            runValidators: true
+        });
+  
+    res.status(200).render('account', {
+        title: 'Your Account',
+        user: updatedUser
+    });
+})
