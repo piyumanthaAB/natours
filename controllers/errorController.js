@@ -153,7 +153,7 @@ module.exports = (err, req, res, next) => {
         }
         // if (error.code === 11000) error = handleDuplicateFieldsDB(error);
         // if (error) error = handleCastErrorDB(error);
-
+        // console.log(err);
         sendErrorProd(error,req, res);
     }
 

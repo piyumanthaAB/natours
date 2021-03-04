@@ -40,12 +40,20 @@ if (logOut) {
 }
 
 if (formUpdateDetails) {
-    formUpdateDetails.addEventListener('submit', e => {
+    formUpdateDetails.addEventListener('submit', async e => {
         e.preventDefault();
-        const email = document.getElementById('email').value;
-        const name = document.getElementById('name').value;
+
+        document.querySelector('.save-button-form').textContent = 'Saving....'
+        // this equals to creating the form
+        const form = new FormData();
+        form.append('name', document.getElementById('name').value);
+        form.append('email', document.getElementById('email').value);
+        form.append('photo', document.getElementById('photo').files[0]);
+        
         // console.log(email,name);
-        updateSettings({email, name},'data');
+        await updateSettings(form,'data');
+        
+        document.querySelector('.save-button-form').textContent = 'Saving....'
     })
 }
 if (formUpdatePassword) {
