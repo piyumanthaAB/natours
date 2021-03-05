@@ -10,6 +10,7 @@ const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 
+const compression = require('compression');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -46,7 +47,6 @@ console.log(`\n****   running environment: ${process.env.NODE_ENV}  ****\n`);
         windowMs: 60 * 60 * 1000,
         message: 'Too many requests from this IP, please try again in an hour ! '
     });
-
     
 // Body parser. Reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -75,9 +75,12 @@ app.use('/api', limiter);
 // test middleware
 
 app.use((req, res, next) => {
-    console.log(req.cookies);
+    // console.log(req.cookies);
     next();
-})
+});
+
+// compress text,json messages sent to the client
+app.use(compression());
     
  //Routes
 app.use('/', viewRouter);

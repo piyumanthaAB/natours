@@ -185,7 +185,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
             new AppError('Please provide latitude and longtitude in format lat,lng', 400)
         );
     }
-    console.log(`distance: ${distance}, latitude: ${lat}, longtitude: ${lng}, unit: ${unit}`);
+    // console.log(`distance: ${distance}, latitude: ${lat}, longtitude: ${lng}, unit: ${unit}`);
 
     const tours = await Tour.find({
         startLocation: {

@@ -19,7 +19,7 @@ const handleValidationError = err => {
     errors.forEach(msg => {
         message = message.concat(` ${msg},`);
     });
-    console.log(message);
+    // console.log(message);
     
     return new AppError(message, 404);
 }
@@ -77,7 +77,7 @@ const sendErrorProd = (err, req, res) => {
         //Programming or other unknown error:don't leak error details
         else {
             //1.Log error
-            console.log(err.isOperational);
+            // console.log(err.isOperational);
     
             //2.Send Generic Message
             res.status(500).json({
@@ -108,7 +108,7 @@ const sendErrorProd = (err, req, res) => {
         //Programming or other unknown error:don't leak error details
         else {
             //1.Log error
-            console.log(err.isOperational);
+            // console.log(err.isOperational);
     
             //2.Send Generic Message
             // set CSP header 
