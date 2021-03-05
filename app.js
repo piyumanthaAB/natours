@@ -20,6 +20,7 @@ const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+app.enable('trust proxy'); // heoru will not work unless
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
