@@ -20,6 +20,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 const app = express();
 app.enable('trust proxy'); // heoru will not work unless
@@ -63,7 +64,7 @@ app.options('*', cors());
         message: 'Too many requests from this IP, please try again in an hour ! '
     });
 
-app.post('/webhook-checkout', express.raw({ type: 'application/json' }), bookingController.webhookCheckout);
+app.post('/webhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckout);
     
 // Body parser. Reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
