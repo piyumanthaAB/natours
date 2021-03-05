@@ -33,7 +33,7 @@ console.log(`\n****   running environment: ${process.env.NODE_ENV}  ****\n`);
 
 // 1) GLOBAL MIDDLEWARES
 
-app.post('/webhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckout);
+// app.post('/webhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckout);
 
     // implement CORS
 app.use(cors());
