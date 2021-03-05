@@ -10,6 +10,7 @@ const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 
+const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -30,6 +31,18 @@ console.log(`\n****   running environment: ${process.env.NODE_ENV}  ****\n`);
 
     
     // 1) GLOBAL MIDDLEWARES
+
+    // implement CORS
+app.use(cors());
+// this set Access-Control-Allow-Origin header to * (all)
+
+// backend hosted @ api.natours.com & frontend hosted @ natours.com
+// app.use(cors({
+//     origin: 'https://www.natours.com'
+// }));
+
+app.options('*', cors());
+// app.options('/api/v1/tours/:id',cors());
 
     // serving static files
     app.use(express.static(path.join(__dirname, 'public')));
