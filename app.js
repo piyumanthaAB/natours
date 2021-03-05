@@ -31,8 +31,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 console.log(`\n****   running environment: ${process.env.NODE_ENV}  ****\n`);
 
-    
-    // 1) GLOBAL MIDDLEWARES
+// 1) GLOBAL MIDDLEWARES
+
+app.post('/webhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckout);
 
     // implement CORS
 app.use(cors());
@@ -64,7 +65,6 @@ app.options('*', cors());
         message: 'Too many requests from this IP, please try again in an hour ! '
     });
 
-app.post('/webhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckout);
     
 // Body parser. Reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
