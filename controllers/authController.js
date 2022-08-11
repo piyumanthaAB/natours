@@ -19,11 +19,10 @@ const createSendToken = (user, statusCode,req, res) => {
     
     const cookieOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIReS_IN * 24 * 60 * 60 * 1000),
-        httpOnly: true,
-        secure: req.secure || req.headers('x-forwarded-photo') === 'https'
+        // httpOnly: true,
     };
     
-    // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // cookies are sent only via https 
+    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // cookies are sent only via https 
     
     res.cookie('jwt', token, cookieOptions);
    
@@ -81,7 +80,7 @@ exports.login = catchAsync(async (req, res, next) => {
     
 
     //3)if everything ok ,send token to client
-    createSendToken(user, req,200, res);
+    createSendToken(user,200,req, res);
     
 });
 
@@ -131,10 +130,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     
     let token;
 
-    //1) Getting the token and check if its out there
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) { // this is with postman . read jwt from request header
-        token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.jwt) { // this is for brower. read the jwt from a cookie
+    if (req.cookies.jwt) { // this is for brower. read the jwt from a cookie
         token = req.cookies.jwt;
     }
 

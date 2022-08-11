@@ -1,0 +1,602 @@
+{
+	"info": {
+		"_postman_id": "778d5a5f-2084-4c87-aaf5-bf0b94eb50c2",
+		"name": "hostel-management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "students",
+			"item": [
+				{
+					"name": "get all students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/students",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add multiple students",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "txt",
+									"type": "file",
+									"src": "/C:/Users/Piyumantha Ahangama/Desktop/hostel-node-app/data/sample-email-list.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/students/multiple",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"students",
+								"multiple"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get a single student",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/students/615408a12a0ee5f57e86c5d1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"students",
+								"615408a12a0ee5f57e86c5d1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add a single  student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"cherin@mail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/students",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update a single student",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "initials",
+									"value": "ABC",
+									"type": "text"
+								},
+								{
+									"key": "firstName",
+									"value": "cherin",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "piyumantha ahangama",
+									"type": "text"
+								},
+								{
+									"key": "committeeMember",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "committee",
+									"value": "committee_1",
+									"type": "text"
+								},
+								{
+									"key": "faculty",
+									"value": "science",
+									"type": "text"
+								},
+								{
+									"key": "studentNo",
+									"value": "cs/2019/11135",
+									"type": "text"
+								},
+								{
+									"key": "level",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "roomNo",
+									"value": "2203",
+									"type": "text"
+								},
+								{
+									"key": "hostelFee",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "specialRemarks",
+									"value": "lorem ipsum",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "asdsd@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "asdasdsa",
+									"type": "text"
+								},
+								{
+									"key": "passwordChangedAt",
+									"value": "2021/10/11",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/students/615337a11c859511701c33c4",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"students",
+								"615337a11c859511701c33c4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove student",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/students/615408a02a0ee5f57e86c5cf",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"students",
+								"615408a02a0ee5f57e86c5cf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin-users",
+			"item": [
+				{
+					"name": "get a single admin_user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/admin-users/6155823c7cd67dc0b823b4d3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin-users",
+								"6155823c7cd67dc0b823b4d3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all admin_users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/admin-users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create admin_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"sunanda\",\r\n    \"title\":\"dr\",\r\n    \"email\":\"sunanda@mail.com\",\r\n    \"userType\":\"academic_wardner\",\r\n    \"password\":\"test1234\",\r\n    \"passwordConfirm\":\"test1234\",\r\n    \"hostel_IDs\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/admin-users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update admin_user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"sunanda\",\r\n    \"title\":\"dr\",\r\n    \"userType\":\"academic_wardner\",\r\n    \"hostel_IDs\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/admin-users/6155823c7cd67dc0b823b4d3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin-users",
+								"6155823c7cd67dc0b823b4d3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete admin_user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/admin-users/6155823c7cd67dc0b823b4d3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin-users",
+								"6155823c7cd67dc0b823b4d3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "queries",
+			"item": []
+		},
+		{
+			"name": "hostels",
+			"item": []
+		},
+		{
+			"name": "rules & regulations",
+			"item": [
+				{
+					"name": "create  rules",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rules\":\"rule_4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/rules-regulations",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rules-regulations"
+							]
+						},
+						"description": "This request is use to create multiple or single Rules and Regulations Doc on DB.\nExamples: \n\nSingle Rule => { \"rules\":\"singleRule\" } \n\nMultiple Rules => { \"rules\":\"rule_1,rule_2,rule_3\" }"
+					},
+					"response": []
+				},
+				{
+					"name": "get all rules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/rules-regulations",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rules-regulations"
+							]
+						},
+						"description": "This request is use to create multiple or single Rules and Regulations Doc on DB.\nExamples: \n\nSingle Rule => { \"rules\":\"singleRule\" } \n\nMultiple Rules => { \"rules\":\"rule_1,rule_2,rule_3\" }"
+					},
+					"response": []
+				},
+				{
+					"name": "get a single rule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/rules-regulations/61541b5bd2279f222a208f69",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rules-regulations",
+								"61541b5bd2279f222a208f69"
+							]
+						},
+						"description": "This request is use to create multiple or single Rules and Regulations Doc on DB.\nExamples: \n\nSingle Rule => { \"rules\":\"singleRule\" } \n\nMultiple Rules => { \"rules\":\"rule_1,rule_2,rule_3\" }"
+					},
+					"response": []
+				},
+				{
+					"name": "update a single rule",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\":\"updated rule 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/rules-regulations/61541b35d2279f222a208f65",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rules-regulations",
+								"61541b35d2279f222a208f65"
+							]
+						},
+						"description": "This request is use to create multiple or single Rules and Regulations Doc on DB.\nExamples: \n\nSingle Rule => { \"rules\":\"singleRule\" } \n\nMultiple Rules => { \"rules\":\"rule_1,rule_2,rule_3\" }"
+					},
+					"response": []
+				},
+				{
+					"name": "delete a single rule Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/rules-regulations/61541b31d2279f222a208f61",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rules-regulations",
+								"61541b31d2279f222a208f61"
+							]
+						},
+						"description": "This request is use to create multiple or single Rules and Regulations Doc on DB.\nExamples: \n\nSingle Rule => { \"rules\":\"singleRule\" } \n\nMultiple Rules => { \"rules\":\"rule_1,rule_2,rule_3\" }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "images -ui",
+			"item": [
+				{
+					"name": "upload a single image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/Piyumantha Ahangama/Desktop/4-natours/starter/dev-data/img/monica.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/gallery-images",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"gallery-images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all images",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/Piyumantha Ahangama/Desktop/4-natours/starter/dev-data/img/leo.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/gallery-images",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"gallery-images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update single image",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/Piyumantha Ahangama/Desktop/4-natours/starter/dev-data/img/new-tour-4.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/gallery-images/615484820aef2c534177cf3d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"gallery-images",
+								"615484820aef2c534177cf3d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete single image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/gallery-images/615484820aef2c534177cf3d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"gallery-images",
+								"615484820aef2c534177cf3d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authentication",
+			"item": []
+		}
+	]
+}

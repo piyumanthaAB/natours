@@ -21,7 +21,8 @@ export const login = async (email, password) => {
         }
     } catch (err) {
         // window.alert(err.response.data.message);
-        showAlert('error',`${err.response.data.message}`);
+        console.log('error', `${err.response.data.message}`);
+        showAlert('error', `${err.response.data.message}`);
     }
 };
 
